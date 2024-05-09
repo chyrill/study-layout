@@ -4,9 +4,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    width: '100%',
     paddingHorizontal: '5%',
     paddingTop: '2%',
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   textColorWhite: {
     color: 'white',
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   scrollContainer: {
+    flex: 1,
     justifyContent: 'space-evenly',
     paddingTop: 10,
     flexDirection: 'row',

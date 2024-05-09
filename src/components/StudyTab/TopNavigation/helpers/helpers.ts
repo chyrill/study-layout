@@ -42,7 +42,7 @@ export function generateRandomEventList(numberOfItems: number): TEventList {
     items.push({
       weekStart: formatDate(startDate),
       weekEnd: formatDate(endDate),
-      isCalendarView: false,
+      isCalendarView: true,
       timezone: `GMT${Math.random() > 0.5 ? '+' : '-'}${Math.floor(
         Math.random() * 12,
       )}`, // GMT+/-0 to 11

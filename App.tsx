@@ -11,6 +11,7 @@ import TopNavigationBar from './src/components/StudyTab/TopNavigation';
 import {generateRandomEventList} from './src/components/StudyTab/TopNavigation/helpers/helpers';
 import {TEventItem} from './src/components/StudyTab/TopNavigation/types/event';
 import TileViewContainer from './src/components/StudyTab/TileViewContainer';
+import CalendarSchedule from './src/components/StudyTab/CalendarViewContainer';
 
 function App(): React.JSX.Element {
   const events = generateRandomEventList(5);
@@ -26,7 +27,9 @@ function App(): React.JSX.Element {
         onSearch={() => {}}
         onStar={() => {}}
       />
-      {selectedEventList.isCalendarView ? null : (
+      {selectedEventList.isCalendarView ? (
+        <CalendarSchedule />
+      ) : (
         <TileViewContainer data={selectedEventList} />
       )}
     </SafeAreaView>
