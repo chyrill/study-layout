@@ -6,12 +6,13 @@
  */
 
 import React, {useState} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import TopNavigationBar from './src/components/StudyTab/TopNavigation';
 import {generateRandomEventList} from './src/components/StudyTab/TopNavigation/helpers/helpers';
 import {TEventItem} from './src/components/StudyTab/TopNavigation/types/event';
-import TileViewContainer from './src/components/StudyTab/TileViewContainer';
+import DayViewContainer from './src/components/StudyTab/DayViewContainer';
 import CalendarSchedule from './src/components/StudyTab/CalendarViewContainer';
+import TileViewContainer from './src/components/StudyTab/TileViewContainer';
 
 function App(): React.JSX.Element {
   const events = generateRandomEventList(5);
@@ -32,6 +33,7 @@ function App(): React.JSX.Element {
       ) : (
         <TileViewContainer data={selectedEventList} />
       )}
+      {/* <DayViewContainer /> */}
     </SafeAreaView>
   );
 }

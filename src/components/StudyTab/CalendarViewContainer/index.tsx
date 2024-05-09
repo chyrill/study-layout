@@ -16,12 +16,7 @@ const EventDayList = ({data, index, orientation}: IEventDayListProps) => {
   const [events, setEvents] = useState(generateEvent());
   console.log(events);
   return (
-    <View
-      style={[
-        styles.fakeContent,
-        {minWidth: orientation === 'landscape' ? 180 : 130},
-      ]}
-      key={index}>
+    <View style={[styles.fakeContent]} key={index}>
       <View style={styles.dayTextContainer}>
         <Text style={styles.dayText}>
           {data.day} {data.date}

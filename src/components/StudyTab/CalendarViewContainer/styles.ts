@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   fakeContent: {
-    width: '10%',
+    width: '14%',
   },
   contentArea: {
     flexDirection: 'row',

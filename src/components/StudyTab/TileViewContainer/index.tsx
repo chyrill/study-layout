@@ -11,7 +11,7 @@ import {transformDate} from '../TopNavigation/helpers/helpers';
 import {useEffect, useState} from 'react';
 import CircleAvatar from '../../Avatar';
 
-const DateRange = ({weekEnd, weekStart, timezone}: any) => {
+export const DateRange = ({weekEnd, weekStart, timezone}: any) => {
   return (
     <View style={styles.dateRange}>
       <Text style={styles.textDateRange}>
