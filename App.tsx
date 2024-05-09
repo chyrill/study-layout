@@ -28,12 +28,12 @@ function App(): React.JSX.Element {
         onSearch={() => {}}
         onStar={() => {}}
       />
-      {selectedEventList.isCalendarView ? (
+      {/* {selectedEventList.isCalendarView ? (
         <CalendarSchedule />
       ) : (
         <TileViewContainer data={selectedEventList} />
-      )}
-      {/* <DayViewContainer /> */}
+      )} */}
+      <DayViewContainer />
     </SafeAreaView>
   );
 }
