@@ -14,6 +14,7 @@ import DayViewContainer from './src/components/StudyTab/DayViewContainer';
 import CalendarSchedule from './src/components/StudyTab/CalendarViewContainer';
 import TileViewContainer from './src/components/StudyTab/TileViewContainer';
 import ReadingList from './src/components/ReadingList';
+import PeoplePageScreen from './src/components/People';
 
 function App(): React.JSX.Element {
   const events = generateRandomEventList(5);
@@ -24,18 +25,7 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <TopNavigationBar
-        onCalendar={() => {}}
-        onSearch={() => {}}
-        onStar={() => {}}
-      /> */}
-      {/* {selectedEventList.isCalendarView ? (
-        <CalendarSchedule />
-      ) : (
-        <TileViewContainer data={selectedEventList} />
-      )} */}
-      {/* <DayViewContainer /> */}
-      <ReadingList />
+      <PeoplePageScreen />
     </SafeAreaView>
   );
 }

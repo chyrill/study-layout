@@ -21,7 +21,7 @@ const CircleAvatar = ({
         },
       ]}>
       <Image
-        source={source}
+        source={{uri: source}}
         style={{
           width: size - borderWidth * 2,
           height: size - borderWidth * 2,
