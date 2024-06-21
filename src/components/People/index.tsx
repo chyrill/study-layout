@@ -111,7 +111,12 @@ const PeopleList = ({people}: IPeopleListProps) => {
   );
 };
 
-const PeoplePageScreen = () => {
+interface IPeoplePageScreenProps {
+  handleSearchClick: () => void;
+}
+
+const PeoplePageScreen = (props: IPeoplePageScreenProps) => {
+  const {handleSearchClick} = props;
   const [selected, setSelected] = useState<string>('participants');
   const [people, setPeople] = useState<IPeople[]>([]);
   const [selectedPeopleGroup, setSelectedPeopleGroup] = useState<IPeople[]>([]);
@@ -148,6 +153,7 @@ const PeoplePageScreen = () => {
       <PeoplePageNavigation
         selectedGroup={selected}
         handleNavigationClick={handleClickNavigationItem}
+        handleSearchClick={handleSearchClick}
       />
       <PeopleList people={selectedPeopleGroup} />
     </View>

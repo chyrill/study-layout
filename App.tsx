@@ -5,30 +5,122 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import TopNavigationBar from './src/components/StudyTab/TopNavigation';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
 import {generateRandomEventList} from './src/components/StudyTab/TopNavigation/helpers/helpers';
 import {TEventItem} from './src/components/StudyTab/TopNavigation/types/event';
-import DayViewContainer from './src/components/StudyTab/DayViewContainer';
-import CalendarSchedule from './src/components/StudyTab/CalendarViewContainer';
-import TileViewContainer from './src/components/StudyTab/TileViewContainer';
-import ReadingList from './src/components/ReadingList';
 import PeoplePageScreen from './src/components/People';
+import {faker} from '@faker-js/faker';
+import SearchModal from './src/components/Search';
 
 function App(): React.JSX.Element {
   const events = generateRandomEventList(5);
+  const [searchModalVisible, setSearchModalVisible] = useState<boolean>(false);
+
+  const [searchItems, setSearchItems] = useState<ISearchItem[]>([]);
 
   const [selectedEventList, setSelectedEventList] = useState<TEventItem>(
     events.items[0],
   );
+  const translateY = useRef(
+    new Animated.Value(Dimensions.get('window').height),
+  ).current;
+
+  const handleSearchClick = () => {
+    setSearchModalVisible(!searchModalVisible);
+  };
+
+  useEffect(() => {
+    setSearchItems(generateSearchItems(faker.number.int({min: 10, max: 20})));
+  }, []);
+
+  useEffect(() => {
+    if (searchModalVisible) {
+      Animated.spring(translateY, {
+        toValue: 0,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.spring(translateY, {
+        toValue: Dimensions.get('window').height,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [searchModalVisible, translateY]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <PeoplePageScreen />
+      <PeoplePageScreen handleSearchClick={handleSearchClick} />
+      <SearchModal
+        visible={searchModalVisible}
+        handleSearchClick={handleSearchClick}
+        items={searchItems}
+      />
     </SafeAreaView>
   );
 }
+
+// for search modal
+export interface ISearchItem {
+  title: string;
+  type: string;
+  subtitle: string;
+  peopleDetails?: {
+    type: string;
+    avatar: string;
+  };
+  documentDetails?: {
+    type: string;
+    date: Date;
+  };
+  sessionDetails?: {
+    date: Date;
+  };
+}
+
+const searchTypes = [
+  'annoucement',
+  'task',
+  'document',
+  'note',
+  'people',
+  'session',
+];
+
+const generateSearchItems = (count: number): ISearchItem[] => {
+  const searchItems: ISearchItem[] = [];
+  for (let i = 0; i < count; i++) {
+    const type =
+      searchTypes[faker.number.int({min: 0, max: searchTypes.length - 1})];
+    let peopleDetails, documentDetails, sessionDetails;
+
+    if (type === 'people') {
+      peopleDetails = {
+        type: faker.name.jobType(),
+        avatar: faker.image.avatar(),
+      };
+    } else if (type === 'document') {
+      documentDetails = {
+        type: faker.system.fileType(),
+        date: faker.date.past(),
+      };
+    } else if (type === 'session') {
+      sessionDetails = {
+        date: faker.date.future(),
+      };
+    }
+
+    searchItems.push({
+      title: faker.lorem.words(faker.number.int({min: 1, max: 10})),
+      type,
+      subtitle: faker.lorem.words(faker.number.int({min: 1, max: 10})),
+      peopleDetails,
+      documentDetails,
+      sessionDetails,
+    });
+  }
+  return searchItems;
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -6,10 +6,12 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 interface IPeoplePageNavigationProps {
   handleNavigationClick: (value: string) => void;
   selectedGroup: string;
+  handleSearchClick: () => void;
 }
 
 const PeoplePageNavigation = ({
   handleNavigationClick,
+  handleSearchClick,
   selectedGroup,
 }: IPeoplePageNavigationProps) => {
   return (
@@ -20,6 +22,7 @@ const PeoplePageNavigation = ({
             name="search"
             size={20}
             color="white"
+            onPress={handleSearchClick}
             backgroundColor="transparent"
           />
           <Icon.Button
