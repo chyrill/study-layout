@@ -1,12 +1,10 @@
 import {
-  Button,
   Dimensions,
   FlatList,
   Modal,
   ScrollView,
   Text,
   TextInput,
-  Touchable,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -59,39 +57,18 @@ interface ISearchItemComponentProps {
 
 const SearchItemComponent = (props: ISearchItemComponentProps) => {
   const {item, index} = props;
-  if (item.type === 'annoucement') {
-    console.log(item);
-  }
 
   switch (item.type) {
-    case 'document':
+    case 'documents':
       return (
-        <View
-          key={index}
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            backgroundColor: index % 2 === 0 ? 'lightgray' : null,
-          }}>
-          <View
-            style={{
-              padding: 10,
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: index % 2 === 0 ? 'white' : 'black',
-                width: '25%',
-              }}
-              numberOfLines={1}>
+        <TouchableOpacity key={index} style={styles.searchItemContainer(index)}>
+          <View style={styles.searchItemInsideContainer}>
+            <Text style={styles.searchItemTitleText} numberOfLines={1}>
               {item.title}
             </Text>
             <Text
               style={{
-                color: index % 2 === 0 ? 'white' : 'black',
+                color: 'white',
                 width: '25%',
               }}
               numberOfLines={1}>
@@ -101,11 +78,11 @@ const SearchItemComponent = (props: ISearchItemComponentProps) => {
               <View
                 style={{
                   borderWidth: 1,
-                  borderColor: index % 2 === 0 ? 'white' : 'black',
+                  borderColor: 'white',
                 }}>
                 <Text
                   style={{
-                    color: index % 2 === 0 ? 'white' : 'black',
+                    color: 'white',
                     padding: 5,
                   }}>
                   {item.documentDetails?.type}
@@ -114,7 +91,7 @@ const SearchItemComponent = (props: ISearchItemComponentProps) => {
             </View>
             <Text
               style={{
-                color: index % 2 === 0 ? 'white' : 'black',
+                color: 'white',
                 width: '25%',
                 textTransform: 'capitalize',
               }}
@@ -122,121 +99,48 @@ const SearchItemComponent = (props: ISearchItemComponentProps) => {
               {item.documentDetails?.date.toDateString()}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
-    case 'note':
+    case 'notes':
       return (
-        <View
-          key={index}
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            backgroundColor: index % 2 === 0 ? 'lightgray' : null,
-          }}>
-          <View
-            style={{
-              padding: 10,
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: index % 2 === 0 ? 'white' : 'black',
-                width: '25%',
-              }}
-              numberOfLines={1}>
+        <TouchableOpacity key={index} style={styles.searchItemContainer(index)}>
+          <View style={styles.searchItemInsideContainer}>
+            <Text style={styles.searchItemTitleText} numberOfLines={1}>
               {item.title}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
     case 'annoucement':
       return (
-        <View
-          key={index}
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            backgroundColor: index % 2 === 0 ? 'lightgray' : null,
-          }}>
-          <View
-            style={{
-              padding: 10,
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: index % 2 === 0 ? 'white' : 'black',
-                width: '25%',
-              }}
-              numberOfLines={1}>
+        <TouchableOpacity key={index} style={styles.searchItemContainer(index)}>
+          <View style={styles.searchItemInsideContainer}>
+            <Text style={styles.searchItemTitleText} numberOfLines={1}>
               {item.title}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
-    case 'task':
+    case 'tasks':
       return (
-        <View
-          key={index}
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            backgroundColor: index % 2 === 0 ? 'lightgray' : null,
-          }}>
-          <View
-            style={{
-              padding: 10,
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: index % 2 === 0 ? 'white' : 'black',
-                width: '25%',
-              }}
-              numberOfLines={1}>
+        <TouchableOpacity key={index} style={styles.searchItemContainer(index)}>
+          <View style={styles.searchItemInsideContainer}>
+            <Text style={styles.searchItemTitleText} numberOfLines={1}>
               {item.title}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
     case 'people':
       return (
-        <View
-          key={index}
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            backgroundColor: index % 2 === 0 ? 'lightgray' : null,
-          }}>
-          <View
-            style={{
-              padding: 10,
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: index % 2 === 0 ? 'white' : 'black',
-                width: '25%',
-                textTransform: 'capitalize',
-              }}
-              numberOfLines={1}>
+        <TouchableOpacity key={index} style={styles.searchItemContainer(index)}>
+          <View style={styles.searchItemInsideContainer}>
+            <Text style={styles.searchItemTitleText} numberOfLines={1}>
               {item.title}
             </Text>
             <Text
               style={{
-                color: index % 2 === 0 ? 'white' : 'black',
+                color: 'white',
                 width: '25%',
                 textTransform: 'capitalize',
               }}
@@ -245,38 +149,18 @@ const SearchItemComponent = (props: ISearchItemComponentProps) => {
             </Text>
             <CircleAvatar size={50} source={item.peopleDetails?.avatar} />
           </View>
-        </View>
+        </TouchableOpacity>
       );
     case 'session':
       return (
-        <View
-          key={index}
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            backgroundColor: index % 2 === 0 ? 'lightgray' : null,
-          }}>
-          <View
-            style={{
-              flex: 1,
-              padding: 10,
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: index % 2 === 0 ? 'white' : 'black',
-                width: '25%',
-                textTransform: 'capitalize',
-              }}
-              numberOfLines={1}>
+        <TouchableOpacity key={index} style={styles.searchItemContainer(index)}>
+          <View style={styles.searchItemInsideContainer}>
+            <Text style={styles.searchItemTitleText} numberOfLines={1}>
               {item.title}
             </Text>
             <Text
               style={{
-                color: index % 2 === 0 ? 'white' : 'black',
+                color: 'white',
                 width: '25%',
                 textTransform: 'capitalize',
               }}
@@ -288,7 +172,7 @@ const SearchItemComponent = (props: ISearchItemComponentProps) => {
             </View>
             <Text
               style={{
-                color: index % 2 === 0 ? 'white' : 'black',
+                color: 'white',
                 width: '25%',
                 textTransform: 'capitalize',
               }}
@@ -296,8 +180,44 @@ const SearchItemComponent = (props: ISearchItemComponentProps) => {
               {item.sessionDetails?.date.toDateString()}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
+  }
+};
+
+interface ISearchItemGroupProps {
+  items: ISearchItem[];
+  type: string;
+  selectedType: string;
+}
+
+const SearchItemGroup = ({
+  items,
+  type,
+  selectedType,
+}: ISearchItemGroupProps) => {
+  if (items.length <= 0) {
+    return null;
+  } else {
+    return (
+      <View style={{paddingVertical: 20}}>
+        {selectedType === 'all' ? (
+          <Text
+            style={{
+              color: 'white',
+              fontWeight: 'bold',
+              fontSize: 24,
+              textTransform: 'capitalize',
+              paddingBottom: 10,
+            }}>
+            {type}
+          </Text>
+        ) : null}
+        {items.map((item, index) => (
+          <SearchItemComponent key={index} item={item} index={index} />
+        ))}
+      </View>
+    );
   }
 };
 
@@ -314,9 +234,10 @@ const TypeSelection = (props: ITypeSelectionProps) => {
     return (
       <TouchableOpacity
         style={{
-          flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
+          height: 50,
+          width: 100,
           backgroundColor: isSelected ? 'white' : null,
           paddingVertical: 10,
           paddingHorizontal: 10,
@@ -334,7 +255,13 @@ const TypeSelection = (props: ITypeSelectionProps) => {
       renderItem={renderItem}
       keyExtractor={(item, index) => item.id.toString()}
       numColumns={7}
-      contentContainerStyle={{flex: 1}}
+      contentContainerStyle={{
+        flex: 1,
+        justifyContent: 'center',
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
+      }}
     />
   );
 };
@@ -343,10 +270,18 @@ interface ISeachMdoalProps {
   visible: boolean;
   handleSearchClick: () => void;
   items: ISearchItem[];
+  handleTypeSelectionProp: (value: string) => void;
+  handleSearchTextChange: (value: string) => void;
 }
 
 const SearchModal = (data: ISeachMdoalProps) => {
-  const {visible, handleSearchClick, items} = data;
+  const {
+    visible,
+    handleSearchClick,
+    items,
+    handleTypeSelectionProp,
+    handleSearchTextChange,
+  } = data;
   const [isLandscape, setIsLandscape] = useState<boolean>(false);
   const [typeSelected, setTypeSelected] = useState<string>('all');
 
@@ -369,8 +304,8 @@ const SearchModal = (data: ISeachMdoalProps) => {
   }, []);
 
   const handleTypeSelection = (value: string) => {
-    console.log(value);
     setTypeSelected(value);
+    handleTypeSelectionProp(value);
   };
 
   const groupedItems = items.reduce(
@@ -381,11 +316,16 @@ const SearchModal = (data: ISeachMdoalProps) => {
     {},
   );
 
+  const groupedItemsArray = Object.keys(groupedItems).map(type => ({
+    type,
+    items: groupedItems[type],
+  }));
   return (
     <Modal
       visible={visible}
       animationType="slide"
       statusBarTranslucent={true}
+      transparent={true}
       onRequestClose={handleSearchClick}>
       <View style={styles.modalViewContainer}>
         <View
@@ -406,44 +346,38 @@ const SearchModal = (data: ISeachMdoalProps) => {
                 color="white"
                 style={{padding: 8, marginEnd: 10}}
               />
-              <TextInput style={{width: '100%'}} />
+              <TextInput
+                style={{width: '100%', color: 'white'}}
+                onChangeText={handleSearchTextChange}
+              />
             </View>
           </View>
           <View style={styles.modalTopContainerDivider} />
           <View
             style={{
-              margin: 20,
-              flex: 1,
-              flexDirection: 'column',
+              height: 80,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row',
             }}>
             <TypeSelection
               handleTypeSelection={handleTypeSelection}
               currentSelected={typeSelected}
             />
-            <View style={{flex: 1}}>
-              <ScrollView>
-                {Object.keys(groupedItems).map((type, index) => (
-                  <View key={index} style={{paddingVertical: 20}}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: 20,
-                      }}>
-                      {type}
-                    </Text>
-                    {groupedItems[type].map((item, index) => (
-                      <SearchItemComponent
-                        key={index}
-                        item={item}
-                        index={index}
-                      />
-                    ))}
-                  </View>
-                ))}
-              </ScrollView>
-            </View>
           </View>
+          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+            <FlatList
+              data={groupedItemsArray.filter(data => data.items.length > 0)}
+              renderItem={({item}) => (
+                <SearchItemGroup
+                  items={item.items}
+                  type={item.type}
+                  selectedType={typeSelected}
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </ScrollView>
         </View>
       </View>
     </Modal>

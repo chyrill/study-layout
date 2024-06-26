@@ -19,6 +19,10 @@ function App(): React.JSX.Element {
 
   const [searchItems, setSearchItems] = useState<ISearchItem[]>([]);
 
+  const [searchedItems, setSearchedItems] = useState<ISearchItem[]>([]);
+  const [searchItemType, setSearchItemType] = useState<string>('all');
+  const [searchText, setSearchText] = useState<string>('');
+
   const [selectedEventList, setSelectedEventList] = useState<TEventItem>(
     events.items[0],
   );
@@ -31,8 +35,24 @@ function App(): React.JSX.Element {
   };
 
   useEffect(() => {
+    const items = generateSearchItems(faker.number.int({min: 10, max: 20}));
     setSearchItems(generateSearchItems(faker.number.int({min: 10, max: 20})));
+    setSearchedItems(items);
   }, []);
+
+  useEffect(() => {
+    const filteredItems = searchItems.filter((item: ISearchItem) => {
+      const itemText = `${item.title.toLowerCase()} ${item.subtitle.toLowerCase()}`;
+      const searchTextLower = searchText.toLowerCase();
+
+      return searchItemType === 'all'
+        ? itemText.includes(searchTextLower)
+        : item.type.toLowerCase() === searchItemType &&
+            itemText.includes(searchTextLower);
+    });
+
+    setSearchedItems(filteredItems);
+  }, [searchItemType, searchItems, searchText]);
 
   useEffect(() => {
     if (searchModalVisible) {
@@ -54,7 +74,9 @@ function App(): React.JSX.Element {
       <SearchModal
         visible={searchModalVisible}
         handleSearchClick={handleSearchClick}
-        items={searchItems}
+        items={searchedItems}
+        handleTypeSelectionProp={setSearchItemType}
+        handleSearchTextChange={setSearchText}
       />
     </SafeAreaView>
   );
@@ -80,9 +102,9 @@ export interface ISearchItem {
 
 const searchTypes = [
   'annoucement',
-  'task',
-  'document',
-  'note',
+  'tasks',
+  'documents',
+  'notes',
   'people',
   'session',
 ];
@@ -96,7 +118,7 @@ const generateSearchItems = (count: number): ISearchItem[] => {
 
     if (type === 'people') {
       peopleDetails = {
-        type: faker.name.jobType(),
+        type: faker.person.jobType(),
         avatar: faker.image.avatar(),
       };
     } else if (type === 'document') {
