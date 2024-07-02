@@ -12,8 +12,11 @@ import {TEventItem} from './src/components/StudyTab/TopNavigation/types/event';
 import PeoplePageScreen from './src/components/People';
 import {faker} from '@faker-js/faker';
 import SearchModal from './src/components/Search';
+import StudyScreen from './src/screen/study';
 
 function App(): React.JSX.Element {
+  const screenToDisplay = 'people';
+
   const events = generateRandomEventList(5);
   const [searchModalVisible, setSearchModalVisible] = useState<boolean>(false);
 
@@ -68,9 +71,19 @@ function App(): React.JSX.Element {
     }
   }, [searchModalVisible, translateY]);
 
+  const DisplayScreen = () => {
+    switch (screenToDisplay.toLowerCase()) {
+      case 'people':
+        return <PeoplePageScreen handleSearchClick={handleSearchClick} />;
+      default:
+        return <StudyScreen />;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <PeoplePageScreen handleSearchClick={handleSearchClick} />
+      <DisplayScreen />
+      {/* <PeoplePageScreen handleSearchClick={handleSearchClick} /> */}
       <SearchModal
         visible={searchModalVisible}
         handleSearchClick={handleSearchClick}

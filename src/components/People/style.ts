@@ -66,6 +66,117 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalPeopleMainContainer: {
+    flex: 1,
+    backgroundColor: '#f3f8f538',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalPeopleMainCard: {
+    backgroundColor: '#126735',
+    width: 1000,
+    height: 800,
+    borderRadius: 20,
+  },
+  modalPeopleMainCardCloseButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    padding: 10,
+  },
+  modalPeopleMainCardCloseButtonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  modalPeopleMainCardTopContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    width: '100%',
+    marginTop: 150,
+  },
+  modalPeopleMainCardTopContentLeftSection: {
+    flex: 1,
+    alignItems: 'flex-start',
+    paddingLeft: 50,
+  },
+  modalPeopleMainCardTopContentLeftSectionText: {
+    color: 'white',
+    fontSize: 25,
+  },
+  modalPeopleMainCardTopContentRightSection: {
+    flex: 1,
+    alignItems: 'flex-end',
+    paddingRight: 50,
+  },
+  modalPeopleMainCardTopContentRightSectionText: {
+    color: 'white',
+    fontSize: 25,
+  },
+  modalPeopleMainCardTopContentCenterSection: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  modalPeopleMainCardBottomContent: {
+    zIndex: -1,
+    marginTop: -100,
+    paddingHorizontal: 50,
+    backgroundColor: '#edeeed',
+    flex: 1,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+  },
+  modalPeopleMainCardBottomInnerContent: {
+    flex: 1,
+    paddingTop: 20,
+  },
+  modalPeopleMainCardBottomInnerContentJobTitle: {
+    fontSize: 20,
+    color: '#525252',
+    fontWeight: 'bold',
+    flexWrap: 'wrap',
+    paddingLeft: 20,
+    width: 200,
+  },
+  modalPeopleMainCardBottomContentDetails: {
+    width: '100%',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 30,
+  },
+  modalPeopleMainCardBottomContentDetailsTitle: {
+    fontSize: 20,
+    color: '#525252',
+    textTransform: 'uppercase',
+  },
+  modalPeopleMainCardBioContent: {
+    marginVertical: 10,
+    padding: 20,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#5252522e',
+    flex: 1,
+  },
+  modalPeopleMainCardContactContent: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#5252522e',
+    flex: 1,
+    marginVertical: 10,
+  },
+  modalPeopleMainCardContactContentTitleText: {
+    fontSize: 15,
+    color: '#525252',
+    textTransform: 'uppercase',
+  },
+  modalPeopleMainCardContactContentValueText: {
+    fontSize: 15,
+    color: 'black',
+    paddingBottom: 20,
+    textTransform: 'uppercase',
+  },
 });
 
 export default styles;

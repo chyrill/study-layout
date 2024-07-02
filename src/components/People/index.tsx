@@ -1,10 +1,18 @@
-import {Dimensions, FlatList, ImageBackground, Text, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useEffect, useState} from 'react';
 import PeoplePageNavigation from './people-navigation';
 import {faker} from '@faker-js/faker';
 import {defaultpic} from '../constants/constants';
 import CircleAvatar from '../Avatar';
 import styles from './style';
+import ModalPeopleInfo from './modal.people.info';
 
 const Divider = () => (
   <View style={{backgroundColor: 'gold', height: 5, width: '100%'}} />
@@ -12,9 +20,10 @@ const Divider = () => (
 
 interface IPeopleListProps {
   people: IPeople[];
+  handleShowPeopleInfo: (id: string) => void;
 }
 
-const PeopleList = ({people}: IPeopleListProps) => {
+const PeopleList = ({people, handleShowPeopleInfo}: IPeopleListProps) => {
   const [isLandscape, setIsLandscape] = useState<boolean>(false);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(4);
   const [flexBasisState, setFlexBasisState] = useState<string>('25%');
@@ -52,14 +61,15 @@ const PeopleList = ({people}: IPeopleListProps) => {
 
   const PeopleItemCard = ({item}: {item: IPeople}) => {
     return (
-      <View
+      <TouchableOpacity
         style={{
           margin: 5,
           width: cardWidth,
           flexBasis: flexBasisState,
           height: 450,
           backgroundColor: 'white',
-        }}>
+        }}
+        onPress={() => handleShowPeopleInfo(item.id)}>
         <ImageBackground
           source={{uri: item.avatar}}
           style={styles.peopleItemCardImageBackgorund}
@@ -93,7 +103,7 @@ const PeopleList = ({people}: IPeopleListProps) => {
         <Text style={{padding: 15, fontSize: 20, textTransform: 'capitalize'}}>
           {item.type}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -120,6 +130,12 @@ const PeoplePageScreen = (props: IPeoplePageScreenProps) => {
   const [selected, setSelected] = useState<string>('participants');
   const [people, setPeople] = useState<IPeople[]>([]);
   const [selectedPeopleGroup, setSelectedPeopleGroup] = useState<IPeople[]>([]);
+  const [selectedPeople, setSelectedPeople] = useState<
+    IPeople | null | undefined
+  >(null);
+
+  const [showPeopleInfoModal, setShowPeopleInfoModal] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const randomGeneratedPeople = randomPeopleGenerator(50);
@@ -148,19 +164,35 @@ const PeoplePageScreen = (props: IPeoplePageScreenProps) => {
     }
   };
 
+  const handleShowInfoModal = (id: string): void => {
+    const selectedPerson = people.find(person => person.id === id);
+    if (selectedPerson) {
+      setSelectedPeople(selectedPerson);
+      setShowPeopleInfoModal(true);
+    }
+  };
+
   return (
     <View>
+      <ModalPeopleInfo
+        show={showPeopleInfoModal}
+        handleShowInfo={() => setShowPeopleInfoModal(!showPeopleInfoModal)}
+        people={selectedPeople as IPeople}
+      />
       <PeoplePageNavigation
         selectedGroup={selected}
         handleNavigationClick={handleClickNavigationItem}
         handleSearchClick={handleSearchClick}
       />
-      <PeopleList people={selectedPeopleGroup} />
+      <PeopleList
+        people={selectedPeopleGroup}
+        handleShowPeopleInfo={handleShowInfoModal}
+      />
     </View>
   );
 };
 
-interface IPeople {
+export interface IPeople {
   id: string;
   firstName: string;
   lastName: string;
@@ -168,6 +200,10 @@ interface IPeople {
   company: string;
   type: 'participant' | 'coordinator' | 'professor';
   avatar: string; //base64
+  country?: string;
+  bio?: string;
+  nationality: string;
+  phone: string;
 }
 
 const getRandomType = (): 'participant' | 'coordinator' | 'professor' => {
@@ -182,12 +218,16 @@ const randomPeopleGenerator = (length: number) => {
   for (let i = 0; i < length; i++) {
     people.push({
       id: faker.string.alphanumeric(20),
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
       jobTitle: faker.person.jobTitle(),
       company: faker.company.name(),
       type: getRandomType(), // change this to have random values,
       avatar: faker.image.avatar() ?? defaultpic,
+      country: faker.location.country(),
+      bio: faker.lorem.paragraphs(5),
+      nationality: faker.person.zodiacSign(),
+      phone: faker.phone.number(),
     });
   }
 
