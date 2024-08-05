@@ -1,7 +1,9 @@
-import styles from './style';
+import styles, {
+  getTopNavigationSelectionButtonContainerStyle,
+  getTopNavigationSelectionTextSelectedStyle,
+} from './style';
 import {View, Text, TouchableOpacity} from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
-import MIIcon from 'react-native-vector-icons/MaterialIcons';
 
 interface ITopNavigationProps {
   selectedTab: string;
@@ -26,13 +28,43 @@ const TopNavigation = (props: ITopNavigationProps) => {
           style={{paddingHorizontal: 10}}
           color="white"
         />
+        {['day'].includes(selectedTab) ? (
+          <FAIcon.Button
+            name="chevron-left"
+            size={20}
+            style={{paddingHorizontal: 10}}
+            color="white"
+            backgroundColor="transparent">
+            <Text style={{color: 'white', fontSize: 18}}>Schedule</Text>
+          </FAIcon.Button>
+        ) : null}
       </View>
       <View style={styles.topNavigationSelectionContainer}>
-        <TouchableOpacity style={{width: 100, alignItems: 'center'}}>
-          <Text style={{color: 'white'}}>Schedule</Text>
+        <TouchableOpacity
+          style={getTopNavigationSelectionButtonContainerStyle(
+            ['schedule', 'day'].includes(selectedTab),
+            true,
+          )}
+          onPress={() => setSelectedTab('schedule')}>
+          <Text
+            style={getTopNavigationSelectionTextSelectedStyle(
+              ['schedule', 'day'].includes(selectedTab),
+            )}>
+            Schedule
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{width: 100, alignItems: 'center'}}>
-          <Text style={{color: 'white'}}>Reading list</Text>
+        <TouchableOpacity
+          style={getTopNavigationSelectionButtonContainerStyle(
+            selectedTab === 'readinglist',
+            false,
+          )}
+          onPress={() => setSelectedTab('readinglist')}>
+          <Text
+            style={getTopNavigationSelectionTextSelectedStyle(
+              selectedTab === 'readinglist',
+            )}>
+            Reading List
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.topNavigationButtonContainer}>

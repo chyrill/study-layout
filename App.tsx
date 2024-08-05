@@ -7,17 +7,24 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
-import {generateRandomEventList} from './src/components/StudyTab/TopNavigation/helpers/helpers';
-import {TEventItem} from './src/components/StudyTab/TopNavigation/types/event';
 import PeoplePageScreen from './src/components/People';
 import {faker} from '@faker-js/faker';
 import SearchModal from './src/components/Search';
 import StudyScreen from './src/screen/study';
+import {
+  generateDailyEvents,
+  generateWeeklyEventsList,
+  getClosestWeeklyEvent,
+  IDailyEvent,
+  IWeeklyEvent,
+} from './src/helpers/event.generator';
+import {Provider} from 'react-redux';
+import store from './src/store/store';
+import TodoWrapper from './src/screen/todo/wrapper';
 
 function App(): React.JSX.Element {
   const screenToDisplay = 'people';
 
-  const events = generateRandomEventList(5);
   const [searchModalVisible, setSearchModalVisible] = useState<boolean>(false);
 
   const [searchItems, setSearchItems] = useState<ISearchItem[]>([]);
@@ -25,10 +32,16 @@ function App(): React.JSX.Element {
   const [searchedItems, setSearchedItems] = useState<ISearchItem[]>([]);
   const [searchItemType, setSearchItemType] = useState<string>('all');
   const [searchText, setSearchText] = useState<string>('');
+  const [weeklyEvents, setWeeklyEvents] = useState<IWeeklyEvent[]>([]);
+  const [selectedWeeklyEvent, setSelectedWeeklyEvent] =
+    useState<IWeeklyEvent | null>(null);
 
-  const [selectedEventList, setSelectedEventList] = useState<TEventItem>(
-    events.items[0],
-  );
+  const [dailyEvents, setDailyEvents] = useState<IDailyEvent[]>([]);
+  const [selectedDailyEvent, setSelecetedDailyEvent] =
+    useState<IDailyEvent | null>(null);
+
+  const [studyTabSelected, setStudyTabSelected] = useState<string>('schedule');
+
   const translateY = useRef(
     new Animated.Value(Dimensions.get('window').height),
   ).current;
@@ -41,6 +54,15 @@ function App(): React.JSX.Element {
     const items = generateSearchItems(faker.number.int({min: 10, max: 20}));
     setSearchItems(generateSearchItems(faker.number.int({min: 10, max: 20})));
     setSearchedItems(items);
+
+    const _weeklyEvents = generateWeeklyEventsList(3);
+    setWeeklyEvents(_weeklyEvents);
+
+    const currentWeekEvent = getClosestWeeklyEvent(_weeklyEvents);
+    setSelectedWeeklyEvent(currentWeekEvent);
+
+    const _dailyEvents = generateDailyEvents(_weeklyEvents);
+    setDailyEvents(_dailyEvents);
   }, []);
 
   useEffect(() => {
@@ -71,27 +93,60 @@ function App(): React.JSX.Element {
     }
   }, [searchModalVisible, translateY]);
 
+  const handleChangeWeek = (courseId: string) => {
+    setSelectedWeeklyEvent(
+      weeklyEvents.find(event => event.courseId === courseId)!,
+    );
+  };
+
+  const onHandleEventSelected = (id: string) => {
+    const dailyEvent = dailyEvents.find(day =>
+      day.events.map(e => e.id).includes(id),
+    );
+    setSelecetedDailyEvent(dailyEvent!);
+    setStudyTabSelected('day');
+  };
+
+  const onHandleChangeDay = (id: string) => {
+    const dailyEvent = dailyEvents.find(day => day.id === id);
+    setSelecetedDailyEvent(dailyEvent!);
+  };
+
   const DisplayScreen = () => {
     switch (screenToDisplay.toLowerCase()) {
       case 'people':
         return <PeoplePageScreen handleSearchClick={handleSearchClick} />;
+      case 'todo':
+        return <TodoWrapper />;
       default:
-        return <StudyScreen />;
+        return (
+          <StudyScreen
+            selectedWeeklyEvent={selectedWeeklyEvent!}
+            handleChangeWeek={handleChangeWeek}
+            onEventSelect={onHandleEventSelected}
+            selectedDailyEvent={selectedDailyEvent}
+            onHandleChangeDay={onHandleChangeDay}
+            selectedTab={studyTabSelected}
+            onChangeTab={(tab: string) => setStudyTabSelected(tab)}
+          />
+        );
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <DisplayScreen />
-      {/* <PeoplePageScreen handleSearchClick={handleSearchClick} /> */}
-      <SearchModal
-        visible={searchModalVisible}
-        handleSearchClick={handleSearchClick}
-        items={searchedItems}
-        handleTypeSelectionProp={setSearchItemType}
-        handleSearchTextChange={setSearchText}
-      />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        <DisplayScreen />
+        {/* <PeoplePageScreen handleSearchClick={handleSearchClick} /> */}
+        <SearchModal
+          visible={searchModalVisible}
+          handleSearchClick={handleSearchClick}
+          items={searchedItems}
+          handleTypeSelectionProp={setSearchItemType}
+          handleSearchTextChange={setSearchText}
+        />
+      </SafeAreaView>
+    </Provider>
   );
 }
 
